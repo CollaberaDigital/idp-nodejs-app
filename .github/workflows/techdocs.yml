@@ -21,6 +21,9 @@ jobs:
       ENTITY_NAMESPACE: 'default'
       ENTITY_KIND: 'component'
       ENTITY_NAME: 'NodejsApp'
+      # In a Software template, Scaffolder will replace {{cookiecutter.component_id | jsonify}}
+      # with the correct entity name. This is same as metadata.name in the entity's catalog-info.yaml
+      # ENTITY_NAME: '{{ cookiecutter.component_id | jsonify }}'
 
     steps:
       - name: Checkout code
@@ -31,13 +34,13 @@ jobs:
         with:
           python-version: '3.9'
 
-      # The 2 steps below can be removed if you aren't using PlantUML in your documentation
+      # the 2 steps below can be removed if you aren't using plantuml in your documentation
       - name: setup java
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '11'
-      - name: download, validate, install PlantUML and its dependencies
+      - name: download, validate, install plantuml and its dependencies
         run: |
           curl -o plantuml.jar -L http://sourceforge.net/projects/plantuml/files/plantuml.1.2021.4.jar/download
           echo "be498123d20eaea95a94b174d770ef94adfdca18  plantuml.jar" | sha1sum -c -
@@ -55,7 +58,7 @@ jobs:
         run: python -m pip install mkdocs-techdocs-core==1.*
 
       - name: Generate docs site
-        run: techdocs-cli generate --verbose
+        run: techdocs-cli generate --no-docker --verbose
 
       - name: Publish docs site
         run: techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity $ENTITY_NAMESPACE/$ENTITY_KIND/$ENTITY_NAME
