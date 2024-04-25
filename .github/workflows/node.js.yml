@@ -21,4 +21,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      # Install Docker
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
+      # Continue with other steps such as installing dependencies and running tests
       - run: yarn install --frozen-lockfile
