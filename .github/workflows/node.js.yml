@@ -29,5 +29,12 @@ jobs:
           sudo sh get-docker.sh
           sudo usermod -aG docker $USER
 
+      # Verify Docker installation and status
+      - name: Check Docker version
+        run: docker --version
+
+      - name: Check Docker daemon status
+        run: sudo systemctl status docker || true
+
       # Continue with other steps such as installing dependencies and running tests
       - run: yarn install --frozen-lockfile
