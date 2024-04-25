@@ -3,9 +3,9 @@ name: Publish TechDocs Site
 on:
   push:
     branches: [main]
-    #paths:
-       #- "docs/**"
-       #- "mkdocs.yml"
+    paths:
+       - "docs/**"
+       - "mkdocs.yml"
 
 jobs:
   publish-techdocs-site:
